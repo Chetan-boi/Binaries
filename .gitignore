@@ -1,0 +1,39 @@
+# === C / C++ ===
+# Build directories and generators
+build/
+bin/
+out/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Compiled objects and libraries
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+
+# Compilation databases and language servers
+compile_commands.json
+.cache/
+.clangd/
+
+# === Rust ===
+# Cargo build outputs
+target/
+**/*.rs.bk
+
+# Cargo lockfile (ignore only if building a library; keep for binaries)
+# Cargo.lock
+
+# === Editors & OS Clutter ===
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
