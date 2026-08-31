@@ -20,9 +20,13 @@ int main(int argc, char* argv[]) {
             << "project(" << projectName << " LANGUAGES CXX)\n\n"
             << "set(CMAKE_CXX_STANDARD 20)\n"
             << "set(CMAKE_CXX_STANDARD_REQUIRED ON)\n\n"
-            << "add_executable(" << projectName << " src/main.cpp)\n";
+            << "add_executable(" << projectName << " src/main.cpp)\n"
+            << "target_include_directories(" << projectName << " PRIVATE include)\n";
 
   CmakeText.close();
+
+  std::filesystem::create_directories(projectName + "/build/.cmake/api/v1/query/");
+  std::ofstream{projectName + "/build/.cmake/api/v1/query/codemodel-v2"};
 
   std::ofstream main(projectName + "/src/main.cpp");
   if (!main) {
@@ -31,8 +35,8 @@ int main(int argc, char* argv[]) {
   }
   main << "#include <iostream>\n\n"
        << "int main() {\n"
-       << "\tstd::cout << \"Hello World!\";\n"
+       << "\tstd::cout << \"Hello World!\\n\";\n"
        << "\treturn 0;\n}";
-  std::cout << projectName << " Created successfully";
+  std::cout << projectName << " Created successfully\n";
   return 0;
 }
