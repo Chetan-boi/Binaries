@@ -4,6 +4,18 @@
 #include <string>
 #include <vector>
 
+static std::string escapeArg(const std::string& arg) {
+    std::string escaped = "\"";
+    for (char c : arg) {
+        if (c == '"' || c == '\\' || c == '$' || c == '`') {
+            escaped += '\\';
+        }
+        escaped += c;
+    }
+    escaped += "\"";
+    return escaped;
+}
+
 int runBinary(const std::string& pathToBinary, const std::vector<std::string>& args) {
     if (pathToBinary.empty()) {
         return 1;
@@ -15,10 +27,12 @@ int runBinary(const std::string& pathToBinary, const std::vector<std::string>& a
         return 1;
     }
 
-    std::string command = "\"" + pathToBinary + "\"";
+    std::string command = escapeArg(pathToBinary);
     for (const auto& arg : args) {
-        command += " \"" + arg + "\"";
+        command += " ";
+        command += escapeArg(arg);
     }
 
     return std::system(command.c_str());
 }
+

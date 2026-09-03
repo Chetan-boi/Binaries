@@ -26,8 +26,12 @@ include(FetchContent)
 FetchContent_Declare(
     nlohmann_json
     URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
 FetchContent_MakeAvailable(nlohmann_json)
 
 # Link the JSON library to your Crun executable
 target_link_libraries(Crun PRIVATE nlohmann_json::nlohmann_json)
+
+# Install rule for easy installation
+install(TARGETS Crun DESTINATION bin)
