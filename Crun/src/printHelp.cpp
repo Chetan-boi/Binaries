@@ -1,31 +1,32 @@
 #include "printHelp.h"
 #include <iostream>
 
-int printHelp() {
- std::cout << R"(Crun — CMake Project Runner
-
-Build and run CMake projects.
-
-USAGE:
-    crun [BUILD_TYPE] [-- PROGRAM_ARGS...]
-
-BUILD TYPES:
-    debug               Build using the Debug configuration
-    release             Build using the Release configuration
-
-OPTIONS:
-    -h, --help          Print this help message
-    -v, --version       Print Crun version
-
-PROGRAM ARGUMENTS:
-    Arguments after `--` are passed directly to the executable.
-
-EXAMPLES:
-    crun
-    crun debug
-    crun release
-    crun debug -- hello world
-    crun release -- --port 8080
-)"; 
-  return 0;
+void printHelp() {
+  std::cout << "\033[1;36mCrun\033[0m \033[1;30m—\033[0m \033[1mCMake Project "
+               "Runner\033[0m\n\n"
+            << "Build and run CMake projects effortlessly.\n\n"
+            << "\033[1;33mUSAGE:\033[0m\n"
+            << "    \033[1;32mcrun\033[0m \033[36m[BUILD_TYPE]\033[0m "
+               "\033[35m[-- PROGRAM_ARGS...]\033[0m\n\n"
+            << "\033[1;33mBUILD TYPES:\033[0m\n"
+            << "    \033[1;36mdebug\033[0m               Build using the Debug "
+               "configuration\n"
+            << "    \033[1;36mrelease\033[0m             Build using the "
+               "Release configuration\n\n"
+            << "\033[1;33mOPTIONS:\033[0m\n"
+            << "    \033[1;32m-h\033[0m, \033[1;32m--help\033[0m          "
+               "Print this help message\n"
+            << "    \033[1;32m-v\033[0m, \033[1;32m--version\033[0m       "
+               "Print Crun version\n\n"
+            << "\033[1;33mPROGRAM ARGUMENTS:\033[0m\n"
+            << "    Arguments after '\033[1;35m--\033[0m' are passed directly "
+               "to the compiled executable.\n\n"
+            << "\033[1;33mEXAMPLES:\033[0m\n"
+            << "    \033[1;32mcrun\033[0m\n"
+            << "    \033[1;32mcrun\033[0m \033[36mdebug\033[0m\n"
+            << "    \033[1;32mcrun\033[0m \033[36mrelease\033[0m\n"
+            << "    \033[1;32mcrun\033[0m \033[36mdebug\033[0m "
+               "\033[1;35m--\033[0m hello world\n"
+            << "    \033[1;32mcrun\033[0m \033[36mrelease\033[0m "
+               "\033[1;35m--\033[0m --port 8080\n";
 }

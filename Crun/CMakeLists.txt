@@ -1,18 +1,33 @@
-# Enforce the minimum CMake version required to parse this file
-cmake_minimum_required(VERSION 3.10)
+# Enforce minimum CMake 3.14
+cmake_minimum_required(VERSION 3.14)
+
+# Define the project name and set the language to C++
 project(Crun LANGUAGES CXX)
 
-# Specify the C++ standard (C++20)
+# Enforce the C++20 standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Generate a compile_commands.json database (used by clangd, LSP, and tooling)
+# Export compile_commands.json for clangd and Neovim LSP support
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Collect all .cpp source files from the src directory
-# Note: CONFIGURE_DEPENDS can be added so CMake detects added/removed files automatically
-file(GLOB SOURCES "src/*.cpp")
+# Automatically gather all .cpp source files in the src/ directory
+# CONFIGURE_DEPENDS ensures CMake re-runs automatically when files are added or deleted
+file(GLOB SOURCES CONFIGURE_DEPENDS "src/*.cpp")
+
+# Create the binary executable from the gathered sources
 add_executable(Crun ${SOURCES})
 
-# Add the 'include' directory to the compiler's header search path for this target only
+# Expose the include/ directory to your source files for #include lookups
 target_include_directories(Crun PRIVATE include)
+
+# Download and link nlohmann/json directly via Git
+include(FetchContent)
+FetchContent_Declare(
+    nlohmann_json
+    URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+)
+FetchContent_MakeAvailable(nlohmann_json)
+
+# Link the JSON library to your Crun executable
+target_link_libraries(Crun PRIVATE nlohmann_json::nlohmann_json)

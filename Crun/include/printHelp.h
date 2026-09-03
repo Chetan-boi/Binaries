@@ -1,4 +1,3 @@
 #pragma once
-#include <iostream>
 
-int printHelp();
+void printHelp();

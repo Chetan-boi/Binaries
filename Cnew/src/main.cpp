@@ -20,6 +20,7 @@ int main(int argc, char* argv[]) {
             << "project(" << projectName << " LANGUAGES CXX)\n\n"
             << "set(CMAKE_CXX_STANDARD 20)\n"
             << "set(CMAKE_CXX_STANDARD_REQUIRED ON)\n\n"
+            << "set(CMAKE_EXPORT_COMPILE_COMMANDS ON)\n"
             << "add_executable(" << projectName << " src/main.cpp)\n"
             << "target_include_directories(" << projectName << " PRIVATE include)\n";
 
