@@ -1,59 +1,14 @@
+#include "colors.hpp"
+
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <vector>
+// #include <vector>
 
 namespace fs = std::filesystem;
 
-namespace Color {
-inline constexpr const char *RESET = "\033[0m";
-inline constexpr const char *BOLD = "\033[1m";
-inline constexpr const char *DIM = "\033[2m";
-inline constexpr const char *RED = "\033[31m";
-inline constexpr const char *GREEN = "\033[32m";
-inline constexpr const char *YELLOW = "\033[33m";
-inline constexpr const char *BLUE = "\033[34m";
-inline constexpr const char *MAGENTA = "\033[35m";
-inline constexpr const char *CYAN = "\033[36m";
-inline constexpr const char *WHITE = "\033[37m";
-inline constexpr const char *BRIGHT_RED = "\033[91m";
-inline constexpr const char *BRIGHT_GREEN = "\033[92m";
-inline constexpr const char *BRIGHT_YELLOW = "\033[93m";
-inline constexpr const char *BRIGHT_CYAN = "\033[96m";
-} // namespace Color
-
-void printHelp() {
-  std::cout << Color::BOLD << Color::BRIGHT_CYAN << "Cnew" << Color::RESET
-            << " - " << Color::DIM << "Modern C++ Project Generator"
-            << Color::RESET << "\n\n"
-            << Color::BOLD << Color::BRIGHT_YELLOW << "Usage:" << Color::RESET
-            << "\n"
-            << "  " << Color::CYAN << "Cnew" << Color::RESET << " "
-            << Color::GREEN << "<projectName>" << Color::RESET << "\n"
-            << "  " << Color::CYAN << "Cnew" << Color::RESET << " "
-            << Color::WHITE << "--help" << Color::RESET << " | " << Color::WHITE
-            << "-h" << Color::RESET << "\n"
-            << "  " << Color::CYAN << "Cnew" << Color::RESET << " "
-            << Color::WHITE << "--version" << Color::RESET << " | "
-            << Color::WHITE << "-v" << Color::RESET << "\n\n"
-            << Color::BOLD << Color::BRIGHT_YELLOW
-            << "Description:" << Color::RESET << "\n"
-            << "  Scaffolds a modern C++20 project with a standard directory "
-               "structure,\n"
-            << "  pre-configured CMakeLists.txt, and CMake File API query "
-               "support.\n\n"
-            << Color::BOLD << Color::BRIGHT_YELLOW << "Options:" << Color::RESET
-            << "\n"
-            << "  " << Color::BRIGHT_CYAN << "-h, --help" << Color::RESET
-            << "       Display this help message\n"
-            << "  " << Color::BRIGHT_CYAN << "-v, --version" << Color::RESET
-            << "    Display version information\n\n"
-            << Color::BOLD << Color::BRIGHT_YELLOW << "Example:" << Color::RESET
-            << "\n"
-            << "  " << Color::CYAN << "Cnew " << Color::GREEN << "MyAwesomeApp"
-            << Color::RESET << "\n";
-}
+void printHelp();
 
 void printVersion() {
   std::cout << Color::BOLD << Color::BRIGHT_CYAN << "Cnew" << Color::RESET
@@ -176,7 +131,7 @@ int main(int argc, char *argv[]) {
   }
   mainFile << "#include <iostream>\n\n"
            << "int main() {\n"
-           << "    std::cout << \"Hello World!\\n\";\n"
+           << "    std::cout << \"Hello World!\" << std::endl;\n"
            << "    return 0;\n"
            << "}\n";
   mainFile.close();
@@ -186,4 +141,36 @@ int main(int argc, char *argv[]) {
             << projectName << "' created successfully!" << Color::RESET << "\n";
 
   return 0;
+}
+
+void printHelp() {
+  std::cout << Color::BOLD << Color::BRIGHT_CYAN << "Cnew" << Color::RESET
+            << " - " << Color::DIM << "Modern C++ Project Generator"
+            << Color::RESET << "\n\n"
+            << Color::BOLD << Color::BRIGHT_YELLOW << "Usage:" << Color::RESET
+            << "\n"
+            << "  " << Color::CYAN << "Cnew" << Color::RESET << " "
+            << Color::GREEN << "<projectName>" << Color::RESET << "\n"
+            << "  " << Color::CYAN << "Cnew" << Color::RESET << " "
+            << Color::WHITE << "--help" << Color::RESET << " | " << Color::WHITE
+            << "-h" << Color::RESET << "\n"
+            << "  " << Color::CYAN << "Cnew" << Color::RESET << " "
+            << Color::WHITE << "--version" << Color::RESET << " | "
+            << Color::WHITE << "-v" << Color::RESET << "\n\n"
+            << Color::BOLD << Color::BRIGHT_YELLOW
+            << "Description:" << Color::RESET << "\n"
+            << "  Scaffolds a modern C++20 project with a standard directory "
+               "structure,\n"
+            << "  pre-configured CMakeLists.txt, and CMake File API query "
+               "support.\n\n"
+            << Color::BOLD << Color::BRIGHT_YELLOW << "Options:" << Color::RESET
+            << "\n"
+            << "  " << Color::BRIGHT_CYAN << "-h, --help" << Color::RESET
+            << "       Display this help message\n"
+            << "  " << Color::BRIGHT_CYAN << "-v, --version" << Color::RESET
+            << "    Display version information\n\n"
+            << Color::BOLD << Color::BRIGHT_YELLOW << "Example:" << Color::RESET
+            << "\n"
+            << "  " << Color::CYAN << "Cnew " << Color::GREEN << "MyAwesomeApp"
+            << Color::RESET << "\n";
 }
