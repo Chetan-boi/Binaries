@@ -1,8 +1,8 @@
 # Enforce minimum CMake 3.14
 cmake_minimum_required(VERSION 3.14)
 
-# Define the project name and set the language to C++
-project(Crun LANGUAGES CXX)
+# Define the project name, version, and set the language to C++
+project(Crun VERSION 0.2.0 LANGUAGES CXX)
 
 # Enforce the C++20 standard
 set(CMAKE_CXX_STANDARD 20)
@@ -20,6 +20,9 @@ add_executable(Crun ${SOURCES})
 
 # Expose the include/ directory to your source files for #include lookups
 target_include_directories(Crun PRIVATE include)
+
+# Pass version macro to the compiler
+target_compile_definitions(Crun PRIVATE CRUN_VERSION="${PROJECT_VERSION}")
 
 # Download and link nlohmann/json directly via Git
 include(FetchContent)

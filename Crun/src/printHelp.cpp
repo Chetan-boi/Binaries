@@ -1,30 +1,31 @@
 #include "printHelp.h"
+#include "version.h"
+#include "colors.h"
 #include <iostream>
 
 void printHelp() {
- std::cout << R"(Crun — CMake Project Runner
-
-Build and run CMake projects.
-
-USAGE:
-    crun [BUILD_TYPE] [-- PROGRAM_ARGS...]
-
-BUILD TYPES:
-    debug               Build using the Debug configuration
-    release             Build using the Release configuration
-
-OPTIONS:
-    -h, --help          Print this help message
-    -v, --version       Print Crun version
-
-PROGRAM ARGUMENTS:
-    Arguments after `--` are passed directly to the executable.
-
-EXAMPLES:
-    crun
-    crun debug
-    crun release
-    crun debug -- hello world
-    crun release -- --port 8080
-)"; 
+    std::cout << Color::BoldCyan << "Crun " << Color::BoldWhite << CRUN_VERSION << Color::Reset 
+              << Color::Dim << " — CMake Project Runner\n\n" << Color::Reset
+              << "Build and run CMake projects.\n\n"
+              << Color::BoldYellow << "USAGE:\n" << Color::Reset
+              << "    " << Color::BoldGreen << "crun " << Color::Cyan << "[OPTIONS] [BUILD_TYPE] " << Color::Dim << "[-- PROGRAM_ARGS...]\n\n" << Color::Reset
+              << Color::BoldYellow << "BUILD TYPES:\n" << Color::Reset
+              << "    " << Color::BoldMagenta << "debug" << Color::Reset << "               Build using the Debug configuration\n"
+              << "    " << Color::BoldMagenta << "release" << Color::Reset << "             Build using the Release configuration\n\n"
+              << Color::BoldYellow << "OPTIONS:\n" << Color::Reset
+              << "    " << Color::BoldGreen << "-f, --force" << Color::Reset << "         Force clean build (removes build directory and re-runs cmake -B build)\n"
+              << "    " << Color::BoldGreen << "-h, --help" << Color::Reset << "          Print this help message\n"
+              << "    " << Color::BoldGreen << "-v, --version" << Color::Reset << "       Print Crun version\n\n"
+              << Color::BoldYellow << "PROGRAM ARGUMENTS:\n" << Color::Reset
+              << "    Arguments after " << Color::Cyan << "`--`" << Color::Reset << " are passed directly to the executable.\n\n"
+              << Color::BoldYellow << "EXAMPLES:\n" << Color::Reset
+              << "    " << Color::BoldGreen << "crun\n" << Color::Reset
+              << "    " << Color::BoldGreen << "crun " << Color::BoldCyan << "-f\n" << Color::Reset
+              << "    " << Color::BoldGreen << "crun " << Color::BoldMagenta << "debug\n" << Color::Reset
+              << "    " << Color::BoldGreen << "crun " << Color::BoldCyan << "-f " << Color::BoldMagenta << "debug\n" << Color::Reset
+              << "    " << Color::BoldGreen << "crun " << Color::BoldMagenta << "release\n" << Color::Reset
+              << "    " << Color::BoldGreen << "crun " << Color::BoldMagenta << "debug " << Color::Dim << "-- hello world\n" << Color::Reset
+              << "    " << Color::BoldGreen << "crun " << Color::BoldMagenta << "release " << Color::Dim << "-- --port 8080\n" << Color::Reset;
 }
+
+
