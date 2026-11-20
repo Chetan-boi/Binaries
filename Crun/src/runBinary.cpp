@@ -1,9 +1,20 @@
-#include "runBinary.h"
-#include "colors.h"
+#include "runBinary.hpp"
+#include "colors.hpp"
+#include <cstdlib>
 #include <filesystem>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
+#include <sys/wait.h>
+
+static std::string shellQuote(const std::string& s) {
+    std::string out = "'";
+    for (char c : s) {
+        if (c == '\'') out += "'\\''";
+        else out += c;
+    }
+    return out + "'";
+}
 
 int runBinary(const std::string& pathToBinary, const std::vector<std::string>& args) {
     if (pathToBinary.empty() || !std::filesystem::exists(pathToBinary)) {
@@ -11,21 +22,14 @@ int runBinary(const std::string& pathToBinary, const std::vector<std::string>& a
         return 1;
     }
 
-    std::string command = pathToBinary.find(' ') != std::string::npos ? "\"" + pathToBinary + "\"" : pathToBinary;
+    std::string command = shellQuote(pathToBinary);
     for (const auto& arg : args) {
-        command += " ";
-        if (arg.find(' ') != std::string::npos || arg.find('\"') != std::string::npos) {
-            command += "\"";
-            for (char c : arg) {
-                if (c == '\"' || c == '\\') command += '\\';
-                command += c;
-            }
-            command += "\"";
-        } else {
-            command += arg;
-        }
+        command += " " + shellQuote(arg);
     }
 
-    return std::system(command.c_str());
+    int status = std::system(command.c_str());
+    if (status == -1) return 1;
+    if (WIFEXITED(status)) return WEXITSTATUS(status);
+    if (WIFSIGNALED(status)) return 128 + WTERMSIG(status);
+    return 1;
 }
-

@@ -1,4 +1,4 @@
-#include "getPathToBinary.h"
+#include "getPathToBinary.hpp"
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
@@ -28,7 +28,6 @@ std::string getPathToBinary() {
   if (!indexPath)
     return "";
 
-  // 1. Extract the codemodel filename from index
   std::string codemodelRel;
   {
     std::ifstream file(*indexPath);
@@ -37,34 +36,25 @@ std::string getPathToBinary() {
         index["reply"]["codemodel-v2"]["jsonFile"].get<std::string>();
   }
 
-  // 2. Extract build directory and the target JSON filename from codemodel
   std::string buildDir;
-  std::string targetRel;
+  std::string artifactPath;
   {
     std::ifstream file(replyDir / codemodelRel);
     auto codemodel = json::parse(file);
     buildDir = codemodel["paths"]["build"].get<std::string>();
 
-    for (const auto &target : codemodel["configurations"][0]["targets"]) {
-      // Find the first target that produces an executable
-      if (target.value("type", "") == "EXECUTABLE" || target.contains("jsonFile")) {
-        targetRel = target["jsonFile"].get<std::string>();
+    for (const auto &entry : codemodel["configurations"][0]["targets"]) {
+      std::ifstream targetFile(replyDir / entry["jsonFile"].get<std::string>());
+      auto target = json::parse(targetFile);
+      if (target.value("type", "") == "EXECUTABLE") {
+        artifactPath = target["artifacts"][0]["path"].get<std::string>();
         break;
       }
     }
   }
 
-  if (targetRel.empty())
+  if (artifactPath.empty())
     return "";
 
-  // 3. Extract the artifact path from the target JSON
-  std::string artifactPath;
-  {
-    std::ifstream file(replyDir / targetRel);
-    auto target = json::parse(file);
-    artifactPath = target["artifacts"][0]["path"].get<std::string>();
-  }
-
-  // Combine build path with target artifact path
   return (fs::path(buildDir) / artifactPath).string();
 }

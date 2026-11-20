@@ -1,9 +1,9 @@
-#include "compile.h"
-#include "getPathToBinary.h"
-#include "runBinary.h"
-#include "printHelp.h"
-#include "version.h"
-#include "colors.h"
+#include "compile.hpp"
+#include "getPathToBinary.hpp"
+#include "runBinary.hpp"
+#include "printHelp.hpp"
+#include "version.hpp"
+#include "colors.hpp"
 #include <iostream>
 #include <string>
 #include <string_view>
@@ -12,7 +12,16 @@
 int main(int argc, char* argv[]) {
     std::string buildType;
     bool force = false;
+    bool quiet = false;
     std::vector<std::string> programArgs;
+
+    if (argc > 1 && std::string_view(argv[1]) == "clean") {
+        if (argc > 2) {
+            std::cerr << Color::BoldRed << "Error: " << Color::Reset << "'clean' takes no arguments\n";
+            return 1;
+        }
+        return clean();
+    }
 
     for (int i = 1; i < argc; ++i) {
         std::string_view arg = argv[i];
@@ -30,6 +39,8 @@ int main(int argc, char* argv[]) {
             return 0;
         } else if (arg == "-f" || arg == "--force") {
             force = true;
+        } else if (arg == "-q" || arg == "--quiet") {
+            quiet = true;
         } else if (arg == "debug" || arg == "release") {
             if (!buildType.empty()) {
                 std::cerr << Color::BoldRed << "Error: " << Color::Reset 
@@ -45,7 +56,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    int buildStatus = compile(buildType, force);
+    int buildStatus = compile(buildType, force, quiet);
     if (buildStatus) {
         std::cerr << Color::BoldRed << "Error: " << Color::Reset << "Could not Compile\n";
         return 1;
