@@ -7,7 +7,7 @@
 #include <vector>
 #include <sys/wait.h>
 
-static std::string shellQuote(const std::string& s) {
+std::string shellQuote(const std::string& s) {
     std::string out = "'";
     for (char c : s) {
         if (c == '\'') out += "'\\''";
